@@ -256,17 +256,17 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/Angelo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>C:/Users/Angelo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets/Plugins/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Users/Angelo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StandardEvents">
+      <HintPath>C:/Users/Angelo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unity\mscorlib.dll</HintPath>
@@ -424,12 +424,15 @@
     <Compile Include="Assets\ExternalImport\Standard Assets\Vehicles\Car\Scripts\WheelEffects.cs" />
     <Compile Include="Assets\MyScript\CreateRoom\CreateRoom.cs" />
     <Compile Include="Assets\MyScript\Generic\DDOL.cs" />
-    <Compile Include="Assets\MyScript\LobbyCanvas.cs" />
+    <Compile Include="Assets\MyScript\Lobby\LobbyCanvas.cs" />
+    <Compile Include="Assets\MyScript\Lobby\RoomLayoutGroup.cs" />
+    <Compile Include="Assets\MyScript\Lobby\RoomListing.cs" />
     <Compile Include="Assets\MyScript\MainCanvasManager.cs" />
     <Compile Include="Assets\MyScript\Networks\LobbyNetwork.cs" />
     <Compile Include="Assets\MyScript\Networks\PlayerNetwork.cs" />
-    <Compile Include="Assets\MyScript\RoomLayoutGroup.cs" />
-    <Compile Include="Assets\MyScript\RoomListing.cs" />
+    <Compile Include="Assets\MyScript\RoomListing\CurrentRoomCanvas.cs" />
+    <Compile Include="Assets\MyScript\RoomListing\PlayerLayoutGroup.cs" />
+    <Compile Include="Assets\MyScript\RoomListing\PlayerListing.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Extensions.cs" />
