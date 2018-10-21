@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerNetwork : MonoBehaviour {
@@ -15,6 +16,10 @@ public class PlayerNetwork : MonoBehaviour {
         instance = this;
         PlayerName = "Angelo#" + Random.Range(1000, 9999);
         photonView = GetComponent<PhotonView>();
+
+        PhotonNetwork.sendRate = 60;
+        PhotonNetwork.sendRateOnSerialize = 30;
+
         SceneManager.sceneLoaded += OnSceneFinishLoading;//call the method when the scene is loaded
 	}
 
@@ -31,7 +36,7 @@ public class PlayerNetwork : MonoBehaviour {
 
     private void MasterLoadedGame()
     {
-        PlayersInGame = 1;
+        photonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient);
         photonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
 
@@ -53,6 +58,14 @@ public class PlayerNetwork : MonoBehaviour {
         if(PlayersInGame==PhotonNetwork.playerList.Length)
         {
             print("All players are in the game");
+            photonView.RPC("RPC_CreatePlayer", PhotonTargets.All);
         }
+    }
+
+    [PunRPC]
+    private void RPC_CreatePlayer()
+    {
+        float randomValue = Random.Range(0f, 5f);
+        PhotonNetwork.Instantiate(Path.Combine("Prefab", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
     }
 }

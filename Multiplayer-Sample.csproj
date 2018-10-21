@@ -430,6 +430,7 @@
     <Compile Include="Assets\MyScript\MainCanvasManager.cs" />
     <Compile Include="Assets\MyScript\Networks\LobbyNetwork.cs" />
     <Compile Include="Assets\MyScript\Networks\PlayerNetwork.cs" />
+    <Compile Include="Assets\MyScript\PlayerMovement.cs" />
     <Compile Include="Assets\MyScript\RoomListing\CurrentRoomCanvas.cs" />
     <Compile Include="Assets\MyScript\RoomListing\PlayerLayoutGroup.cs" />
     <Compile Include="Assets\MyScript\RoomListing\PlayerListing.cs" />
