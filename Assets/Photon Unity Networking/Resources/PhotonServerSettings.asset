@@ -39,4 +39,5 @@ MonoBehaviour:
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
   - RPC_CreatePlayer
+  - RPC_NewHealth
   DisableAutoOpenWizard: 1

@@ -8,6 +8,7 @@ public class PlayerMovement : Photon.MonoBehaviour {
     private PhotonView photonView;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
+    public float health;
 
     private void Awake()
     {
@@ -28,11 +29,13 @@ public class PlayerMovement : Photon.MonoBehaviour {
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            ///stream.SendNext(health); if I want send the current health to other player
         }
         else
         {
             targetPosition = (Vector3)stream.ReceiveNext();
             targetRotation = (Quaternion)stream.ReceiveNext();
+            //health = (int)stream.ReceiveNext();
         }
     }
 

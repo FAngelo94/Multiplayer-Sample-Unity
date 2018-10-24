@@ -11,6 +11,8 @@ public class PlayerNetwork : MonoBehaviour {
 
     private int PlayersInGame = 0;
 
+    private PlayerMovement currentPlayer;
+
 	// Use this for initialization
 	private void Awake () {
         instance = this;
@@ -36,13 +38,13 @@ public class PlayerNetwork : MonoBehaviour {
 
     private void MasterLoadedGame()
     {
-        photonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient);
+        photonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player);
         photonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
 
     private void NotMasterLoadedGame()
     {
-        photonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient);
+        photonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient,PhotonNetwork.player);
     }
 
     [PunRPC]
@@ -52,8 +54,10 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     [PunRPC]
-    private void RPC_LoadedGameScene()
+    private void RPC_LoadedGameScene(PhotonPlayer photonPlayer)
     {
+        PlayerManagement.instance.AddPlayerStats(photonPlayer);
+
         PlayersInGame++;
         if(PlayersInGame==PhotonNetwork.playerList.Length)
         {
@@ -62,10 +66,28 @@ public class PlayerNetwork : MonoBehaviour {
         }
     }
 
+    public void NewHealth(PhotonPlayer photonPlayer, int health)
+    {
+        photonView.RPC("RPC_NewHealth", photonPlayer, health);
+    }
+
+    [PunRPC]
+    private void RPC_NewHealth(int health)
+    {
+        if (currentPlayer == null)
+            return;
+
+        if (health <= 0)
+            PhotonNetwork.Destroy(currentPlayer.gameObject);
+        else
+            currentPlayer.health = health;
+    }
+
     [PunRPC]
     private void RPC_CreatePlayer()
     {
         float randomValue = Random.Range(0f, 5f);
-        PhotonNetwork.Instantiate(Path.Combine("Prefab", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
+        GameObject obj = PhotonNetwork.Instantiate(Path.Combine("Prefab", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
+        currentPlayer = obj.GetComponent<PlayerMovement>();
     }
 }
