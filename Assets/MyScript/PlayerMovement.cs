@@ -31,7 +31,7 @@ public class PlayerMovement : Photon.MonoBehaviour {
             stream.SendNext(transform.rotation);
             ///stream.SendNext(health); if I want send the current health to other player
         }
-        else
+        else if(stream.isReading)//if isn't anything to read I don't waste time to the else code
         {
             targetPosition = (Vector3)stream.ReceiveNext();
             targetRotation = (Quaternion)stream.ReceiveNext();

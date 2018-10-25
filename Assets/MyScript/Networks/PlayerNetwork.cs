@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,12 +8,11 @@ public class PlayerNetwork : MonoBehaviour {
 
     public static PlayerNetwork instance;
     public string PlayerName { get; private set; }
-
     private PhotonView photonView;
-
     private int PlayersInGame = 0;
-
+    private ExitGames.Client.Photon.Hashtable m_playerCustomProprieties = new ExitGames.Client.Photon.Hashtable();
     private PlayerMovement currentPlayer;
+    private Coroutine m_pingCoroutine;
 
 	// Use this for initialization
 	private void Awake () {
@@ -50,7 +51,7 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     private void RPC_LoadGameOthers()
     {
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(2);
     }
 
     [PunRPC]
@@ -87,7 +88,29 @@ public class PlayerNetwork : MonoBehaviour {
     private void RPC_CreatePlayer()
     {
         float randomValue = Random.Range(0f, 5f);
-        GameObject obj = PhotonNetwork.Instantiate(Path.Combine("Prefab", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
-        currentPlayer = obj.GetComponent<PlayerMovement>();
+        PhotonNetwork.Instantiate(Path.Combine("Prefab", "NewPlayer"), Vector3.up * randomValue, Quaternion.identity, 0); 
+    }
+
+    private IEnumerator C_SetPing()
+
+    {
+        while (PhotonNetwork.connected)
+        {
+            m_playerCustomProprieties["Ping"] = PhotonNetwork.GetPing();
+            //m_playerCustomProprieties.Add("GamesOne", 5); is equal to the row above
+            PhotonNetwork.player.SetCustomProperties(m_playerCustomProprieties);
+
+            yield return new WaitForSeconds(5f);
+        }
+
+        yield break;
+    }
+
+    //called by photon when connected to the master server
+    private void OnConnectedToMaster()
+    {
+        if (m_pingCoroutine != null)
+            StopCoroutine(m_pingCoroutine);
+        m_pingCoroutine = StartCoroutine(C_SetPing());
     }
 }
